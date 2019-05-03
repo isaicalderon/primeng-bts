@@ -1,0 +1,10 @@
+
+    [
+        {"matricula":"15130146", "nombres":"Isai1", "apellidoPaterno": "Aleman1", "apellidoMaterno": "Calderon1"},
+        {"matricula":"15130147", "nombres":"Isai2", "apellidoPaterno": "Aleman2", "apellidoMaterno": "Calderon2"},
+        {"matricula":"15130148", "nombres":"Isai3", "apellidoPaterno": "Aleman3", "apellidoMaterno": "Calderon3"},
+        {"matricula":"15130149", "nombres":"Isai4", "apellidoPaterno": "Aleman4", "apellidoMaterno": "Calderon4"},
+        {"matricula":"15130150", "nombres":"Isai5", "apellidoPaterno": "Aleman5", "apellidoMaterno": "Calderon5"},
+        {"matricula":"15130145", "nombres":"Isai6", "apellidoPaterno": "Aleman6", "apellidoMaterno": "Calderon6"},
+        {"matricula":"15130144", "nombres":"Isai7", "apellidoPaterno": "Aleman7", "apellidoMaterno": "Calderon7"}
+    ]

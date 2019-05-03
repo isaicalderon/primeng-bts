@@ -1,0 +1,163 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<nav class="navbar navbar-dark" style="background: rgba(0,0,0,0.8);padding: 0 1rem;">
+	<a class="navbar-brand" href="#">
+		<img style="float:left;margin-right: 10px;" src="matcocat.png" width="60%"  class="d-inline-block align-top" alt="">
+	</a>
+	<div style="float:right">
+		<p style="margin-top:10px;color: #FFCC00 !important;font-size: 25px;">
+			Capacitación
+		</p>
+	</div>
+</nav>
+
+<p-toast key="msgToast" [modal]="true" [baseZIndex]="5000"></p-toast>
+
+<div class="container-fluid bg-dark" style="padding: 0.7%;">
+	<p-breadcrumb [model]="menuNav"></p-breadcrumb>
+	<p class="mb-10"></p>
+	<p-menubar [model]="menuBar"></p-menubar>
+	
+	<p-dialog id="altaAlumno" header="Alta Alumno" [(visible)]="displayAgregar" [modal]="true" [responsive]="true"
+		[style]="{width: '450px', height: '200px', background: '#3f3f3f', top: '0px'}" [minY]="50">
+		<div style="padding: 5%;">
+			<form>
+				<div class="form-group">
+					<!-- 
+					<label for="nombres" class="f-left">Nombre: </label> -->
+					<input type="text" class="btn-dialog border-top no-b-b" id="nombres" placeholder="Nombres" [(ngModel)]="nombres" name="nombre">
+				</div>
+				<div class="form-group">
+					<!-- 
+					<label for="app" class="f-left">Apellido Paterno: </label>
+					-->
+					<input type="text" class="btn-dialog border-mid no-b-b" id="app" placeholder="Apellido Paterno" [(ngModel)]="apePaterno" name="apePaterno">
+				</div>
+				<div class="form-group" style="margin-bottom:10px;">
+					<!-- 
+					<label for="apm" class="f-left">Apellido Materno: </label>
+					-->
+					<input type="text" class="btn-dialog border-bot" id="apm" placeholder="Apellido Materno" [(ngModel)]="apeMaterno" name="apeMaterno">
+				</div>
+				<!-- 
+				<p-progressSpinner></p-progressSpinner> 
+				-->
+				<p style="text-align: center">
+					<button id="btnAgregar" class="btn btn-dark" (click)="funAgregarAlumno()">
+							<span id="spanSpinner" class="spinner-border spinner-border-sm dp-none" role="status" aria-hidden="true"></span>
+							<span id="spanText">Registrar</span>
+					</button>
+                    <button class="btn btn-dark" (click) = "showDialogAgregar()">Cancelar</button>
+				</p>
+			</form>
+		</div>
+	</p-dialog>
+
+	<p-dialog id="editarAlumno" header="Editar Alumno" [(visible)]="displayEditar" [modal]="true" [responsive]="true"
+		[style]="{width: '450px', height: '200px', background: '#3f3f3f', top: '0px'}" [minY]="50">
+		<div style="padding: 5%;">
+			<form>
+				<div class="form-group">
+					<!-- 
+					<label for="nombres" class="f-left">Nombre: </label> -->
+					<input type="text" class="btn-dialog border-top no-b-b" id="matricula" placeholder="Matricula" [(ngModel)]="matricula" name="matricula">
+				</div>
+				<div class="form-group">
+					<!-- 
+					<label for="nombres" class="f-left">Nombre: </label> -->
+					<input type="text" class="btn-dialog border-mid no-b-b" id="nombres" placeholder="Nombres" [(ngModel)]="nombres" name="nombre">
+				</div>
+				<div class="form-group">
+					<!-- 
+					<label for="app" class="f-left">Apellido Paterno: </label>
+					-->
+					<input type="text" class="btn-dialog border-mid no-b-b" id="app" placeholder="Apellido Paterno" [(ngModel)]="apePaterno" name="apePaterno">
+				</div>
+				<div class="form-group" style="margin-bottom:10px;">
+					<!-- 
+					<label for="apm" class="f-left">Apellido Materno: </label>
+					-->
+					<input type="text" class="btn-dialog border-bot" id="apm" placeholder="Apellido Materno" [(ngModel)]="apeMaterno" name="apeMaterno">
+				</div>
+				<!-- 
+				<p-progressSpinner></p-progressSpinner> 
+				-->
+				<p style="text-align: center">
+					<button id="btnAgregar" class="btn btn-dark" (click)="funAgregarAlumno()">
+							<span id="spanSpinner" class="spinner-border spinner-border-sm dp-none" role="status" aria-hidden="true"></span>
+							<span id="spanText">Editar</span>
+					</button>
+                    <button class="btn btn-dark" (click) = "showDialogAgregar()">Cancelar</button>
+				</p>
+			</form>
+		</div>
+	</p-dialog>
+
+
+	<p-dialog id="eliminarAlumno" header="Confirmacion" [(visible)]="displayConfirm" [modal]="true" [responsive]="true"
+		[style]="{width: '450px', height: '200px', background: '#3f3f3f', top: '0px'}" [minY]="50">
+		<div style="padding: 5% 2%;">
+			<p class="">
+				<span class="pi pi-trash"></span> ¿Estas seguro que deseas borrar al alumno con la matricula: {{matricula}} ?
+			</p>
+			<p style="text-align: right;margin-top: 13px;">
+				<button class="btn btn-dark" (click) = "funEliminarAlumno()">Si</button>
+				<button class="btn btn-dark" (click) = "showDialogDeleteConfirm();clearFilters(dt)">No</button>
+			</p>	
+		</div>
+	</p-dialog>
+	
+
+	<p class="mb-10"></p>
+	<div class="row">
+		<div class="col-md-12">
+			<p-table id="table" #dt [columns]="cols" [value]="alumnos" [paginator]="true" [rows] = "10"
+				selectionMode="single" [(selection)] = "dataSelect" (onRowSelect)="onRowSelect()" (onRowUnselect)="onRowUnselect($event)"
+				>
+				<!--
+				<ng-template pTemplate="caption">
+						<div style="text-align: right">        
+								<i class="pi pi-search" style="margin:4px 4px 0 0"></i>
+								<input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
+						</div>
+				</ng-template>
+				-->
+				<ng-template pTemplate="caption">
+					<div style="text-align: left">
+						
+						<button class="btn btn-dark" (click)="clearFilters(dt)">
+								<i class="pi pi-trash" style="margin:0px 0px"></i> Borrar Filtros</button>
+					</div>
+				</ng-template>
+				<ng-template pTemplate="header" let-columns>
+						<tr>
+								<th *ngFor="let col of columns" [pSortableColumn]="col.field">
+										{{col.header}}
+										<p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
+								</th>
+						</tr>
+						<tr>
+							<th *ngFor="let col of columns" [ngSwitch]="col.field">
+								<input pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+									
+							</th>
+						</tr>
+				</ng-template>
+				<ng-template pTemplate="body" let-rowData let-alumno>
+						<tr [pSelectableRow]="rowData">
+							<td>{{alumno.matricula}}</td>
+							<td>{{alumno.nombres}}</td>
+							<td>{{alumno.apellidoPaterno}}</td>
+							<td>{{alumno.apellidoMaterno}}</td>
+						</tr>
+				</ng-template>
+			</p-table>
+		</div>
+	</div>
+	<p class="mb-10"></p>
+	<footer>
+			2018 - Empresas MATCO, S.A. de C.V. Todos los Derechos Reservados
+	</footer>
+
+ 
+</div>
+
