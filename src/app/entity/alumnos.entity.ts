@@ -1,5 +1,5 @@
 export interface Alumno{
-    matricula;
+    matricula: number;
     nombres;
     apellidoPaterno;
     apellidoMaterno;

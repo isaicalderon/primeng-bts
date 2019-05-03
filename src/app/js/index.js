@@ -1,3 +1,4 @@
+/*
 var app = angular.module("ap",[]);
 
 app.controller("con",function($scope){
@@ -10,7 +11,7 @@ app.controller("con",function($scope){
   };
   
 });
-
+*/
 /*$(document).ready(function(){
     console.log("weey");
 

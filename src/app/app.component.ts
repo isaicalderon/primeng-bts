@@ -8,6 +8,8 @@ import { AlumnoService } from './services/alumno.service';
 import { Alumno } from './entity/alumnos.entity';
 
 
+
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -22,7 +24,7 @@ export class AppComponent {
     alumnos: Alumno[];
     alumnoRes: Alumno;
     alumnoSend: Alumno;
-
+    
     cols: any[];
     inputFiltro: any;
     dataSelect: Alumno;
@@ -40,7 +42,7 @@ export class AppComponent {
     disabledRow: boolean = true;
     clicked: boolean = true;
 
-    
+  
 
     
     showDialogAgregar(){
@@ -59,12 +61,13 @@ export class AppComponent {
     
     onRowSelect() {
       this.disabledRow = false;
-      console.log(this.dataSelect.matricula);
       this.matricula = this.dataSelect.matricula;
       this.nombres = this.dataSelect.nombres;
       this.apePaterno = this.dataSelect.apellidoPaterno;
       this.apeMaterno = this.dataSelect.apellidoMaterno;
       this.ngOnInit();
+      console.log(this.matricula);
+      
     }
 
     onRowUnselect(event) {
@@ -100,17 +103,35 @@ export class AppComponent {
       this.showDialogDeleteConfirm();
       this.showMessage('Se ha eliminado correctamente al alumno '+this.dataSelect.matricula+' - '
         +this.dataSelect.nombres+" "+this.dataSelect.apellidoPaterno+" "+this.dataSelect.apellidoMaterno);
+
     }
 
     funEditarAlumno(){
-      this.alumnoSend.matricula = this.matricula;
-      this.alumnoSend.matricula = this.matricula;
+      /*
+      console.log(this.alumnoSend[0]);
+      this.alumnoSend[0] = this.matricula;
+      this.alumnoSend.matricula = this.dataSelect.matricula;
+      this.alumnoSend.nombres = this.nombres;
       this.alumnoSend.apellidoPaterno = this.apePaterno;
       this.alumnoSend.apellidoMaterno = this.apeMaterno;
       this.alumnoSend.modificadoPor = "user";
+      */
+     this.alumnoSend = {
+        matricula:this.matricula,
+        nombres:this.nombres,
+        apellidoPaterno: this.apePaterno, 
+        apellidoMaterno:this.apeMaterno,
+        creadoPor:"user",
+        modificadoPor:"user"
+      };
+      //console.log(this.alumnoSend);
 
       this.alumnoService.updateAlumno(this.alumnoSend);
-
+      this.showDialogEditar();
+      this.showMessage('Se ha editado correctamente al alumno '+this.alumnoSend.matricula+' - '
+        +this.alumnoSend.nombres+" "+this.alumnoSend.apellidoPaterno+" "+this.alumnoSend.apellidoMaterno);
+      this.onRowSelect();
+        
     }
 
     showMessage(details) {
