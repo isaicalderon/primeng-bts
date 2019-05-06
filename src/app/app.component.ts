@@ -83,14 +83,24 @@ export class AppComponent {
     funAgregarAlumno(){
       //showMessage('Se ha agregado correctamente el alumno MAT - Nom Ape')
         //console.log(this.nombres);
-      this.alumnoService.srvGuardarAlumnoJson(this.nombres, this.apePaterno, this.apeMaterno, "DESARROLLO")
+      this.alumnoSend = {
+        nombres:this.nombres,
+        apellidoPaterno: this.apePaterno, 
+        apellidoMaterno:this.apeMaterno,
+        creadoPor:"user",
+        modificadoPor:"user"
+      };
+    
+        console.log("agregando a: "+this.alumnoSend);
+
+      this.alumnoService.guardarAlumno(this.alumnoSend)
         .subscribe(data => {
           //console.log('Se ha agregado correctamente el alumno '+(data as Alumno).matricula+' - '
           //+(data as Alumno).nombres+" "+(data as Alumno).apellidoPaterno+" "+(data as Alumno).apellidoMaterno);
-      this.showDialogAgregar(); // cerramos el dialog
-      //this.clearFilters("dt");
-      this.showMessage('Se ha agregado correctamente el alumno '+(data as Alumno).matricula+' - '
-        +(data as Alumno).nombres+" "+(data as Alumno).apellidoPaterno+" "+(data as Alumno).apellidoMaterno);
+          this.showDialogAgregar(); // cerramos el dialog
+          //this.clearFilters("dt");
+          this.showMessage('Se ha agregado correctamente el alumno '+(data as Alumno).matricula+' - '
+            +(data as Alumno).nombres+" "+(data as Alumno).apellidoPaterno+" "+(data as Alumno).apellidoMaterno);
       });
         
     }
@@ -107,15 +117,6 @@ export class AppComponent {
     }
 
     funEditarAlumno(){
-      /*
-      console.log(this.alumnoSend[0]);
-      this.alumnoSend[0] = this.matricula;
-      this.alumnoSend.matricula = this.dataSelect.matricula;
-      this.alumnoSend.nombres = this.nombres;
-      this.alumnoSend.apellidoPaterno = this.apePaterno;
-      this.alumnoSend.apellidoMaterno = this.apeMaterno;
-      this.alumnoSend.modificadoPor = "user";
-      */
      this.alumnoSend = {
         matricula:this.matricula,
         nombres:this.nombres,
@@ -124,14 +125,14 @@ export class AppComponent {
         creadoPor:"user",
         modificadoPor:"user"
       };
-      //console.log(this.alumnoSend);
+      console.log("editar a: "+this.alumnoSend.nombres);
 
-      this.alumnoService.updateAlumno(this.alumnoSend);
+      this.alumnoService.updateAlumno(this.alumnoSend).subscribe();
+      this.onRowSelect();
       this.showDialogEditar();
       this.showMessage('Se ha editado correctamente al alumno '+this.alumnoSend.matricula+' - '
         +this.alumnoSend.nombres+" "+this.alumnoSend.apellidoPaterno+" "+this.alumnoSend.apellidoMaterno);
-      this.onRowSelect();
-        
+      
     }
 
     showMessage(details) {

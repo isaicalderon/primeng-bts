@@ -21,6 +21,8 @@ import {DialogModule} from 'primeng/dialog';
 import {InputTextModule} from 'primeng/inputtext';
 import {ToastModule} from 'primeng/toast';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
+import { AlumnoService } from './services/alumno.service';
+
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import {ProgressSpinnerModule} from 'primeng/progressspinner';
     ToastModule,
     ProgressSpinnerModule
   ],
-  providers: [],
+  providers: [
+    AlumnoService
+  ],
   bootstrap: [
     AppComponent
   ]

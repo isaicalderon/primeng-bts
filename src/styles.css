@@ -78,3 +78,7 @@ body .ui-dialog .ui-dialog-titlebar{
 .dp-none{
     display: none;
 }
+
+.bg-dark2{
+    background: #313131 !important;
+}

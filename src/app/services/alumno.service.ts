@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators'
-
+/*
 const httpOptions = {
   headers: new HttpHeaders({
     'Access-Control-Allow-Headers': 'Content-Type',
@@ -15,60 +15,46 @@ const httpOptions = {
     //'Authorization': 'my-auth-token'
   })
 };
+*/AnimationEvent
 const header = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json'
     })
   };
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable(/*{providedIn: 'root'}*/)
 export class AlumnoService{
     constructor(private http: HttpClient){}
-    server = "localhost";
-    //registrar: boolean = false;
+    //server = "localhost";
     
-    url1 = "http://"+this.server+":8085/ServiciosAlumnos/servicios/alumnoServicio/obtenerTodosAlumnos?";
-    //utrTmp = 'assets/DataAlumnos.json';
+    urlObtenerTodos   = "/ServiciosAlumnos/servicios/alumnoServicio/obtenerTodosAlumnos?";
+    urlGuardarAlumno  = "/ServiciosAlumnos/servicios/alumnoServicio/guardarAlumno";
+    urlEliminar       = "/ServiciosAlumnos/servicios/alumnoServicio/eliminarAlumno?matricula=";
+    urlUpdate         = "/ServiciosAlumnos/servicios/alumnoServicio/modificarAlumno?";
 
-    urlGuardarAlumno = "";
-    
     getAlumnosJson(){
-        //httpOptions.headers = httpOptions.headers.set('Access-Control-Allow-Origin', '*');
-        /*const headers = new HttpHeaders()
-            .append('Content-Type', 'application/json')
-            .append('Access-Control-Allow-Headers', 'Content-Type')
-            .append('Access-Control-Allow-Methods', 'GET')
-            .append('Access-Control-Allow-Origin', '*');
-*/
-        return this.http.get(this.url1, httpOptions)
+      return this.http.get(this.urlObtenerTodos)
             .toPromise()
             .then(res => <Alumno[]> (res as any)) // fix bug (res as any).data
             .then(data => {return this.sortJSON(data, "fechaHoraCreacion", "desc");} ) 
     }
 
-    srvGuardarAlumnoJson(nombres, apePaterno, apeMaterno, creadoPor){
-        this.urlGuardarAlumno = "http://"+this.server+":8085/ServiciosAlumnos/servicios/alumnoServicio/guardarAlumno?nombres="+nombres+"&apePaterno="
-        +apePaterno+"&apeMaterno="+apeMaterno+"&creadoPor="+creadoPor;
-
-        return this.http.get(this.urlGuardarAlumno)
+    guardarAlumno(alumno:Alumno){
+        return this.http.post(this.urlGuardarAlumno, alumno, header)
             /*.toPromise()
             .then(res => <Alumno> (res as any)) // fix bug (res as any).data
-            .then(data => {return data;} ) */
+            .then(data => {return this.sortJSON(data, "fechaHoraCreacion", "desc");} ) */
     }
 
-    updateAlumno(alumno: Alumno) {
-        console.log("servicio 1");
-        const url = "http://"+this.server+":8085/ServiciosAlumnos/servicios/alumnoServicio/modificarAlumno";
-        this.http.put(url, alumno, header).pipe(
+    updateAlumno(alumno: Alumno): Observable<Alumno> {
+        return this.http.put<Alumno>(this.urlUpdate, alumno, header)
+        .pipe(
             catchError(this.handleError)
         );
-
+        
     }
 
     eliminarAlumno(id: number): Observable<{}>{
-        const url = "http://"+this.server+":8085/ServiciosAlumnos/servicios/alumnoServicio/eliminarAlumno?matricula="+id;
-        return this.http.delete(url);
+      return this.http.delete(this.urlEliminar+id);
     }
 
     sortJSON(data, key, orden) {
